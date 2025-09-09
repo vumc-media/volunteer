@@ -26,7 +26,6 @@
       padding: 10px;
     }
     legend { font-weight: bold; }
-    label { display: block; margin: 6px 0; }
     button {
       background: #0b6efb;
       color: #fff;
@@ -34,6 +33,7 @@
       border: none;
       border-radius: 6px;
       cursor: pointer;
+      padding: 12px;
     }
     #ok, #err {
       display: none;
@@ -43,6 +43,27 @@
     }
     #ok { background:#e9f6ec; color:#1b6b2c; }
     #err { background:#fdebec; color:#9a1c28; }
+
+    /* Checkbox grid */
+    .checkboxes {
+      display: grid;
+      grid-template-columns: 1fr 1fr; /* 2 columns */
+      gap: 8px 20px;
+    }
+    .checkboxes label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: normal;
+      width: auto;
+    }
+    .checkboxes input[type="checkbox"] {
+      width: auto;
+      margin: 0;
+    }
+    @media (max-width:600px) {
+      .checkboxes { grid-template-columns: 1fr; } /* stack on small screens */
+    }
   </style>
 </head>
 <body>
@@ -66,16 +87,18 @@
 
     <fieldset>
       <legend>Areas of interest</legend>
-      <label><input type="checkbox" name="areas" value="3rd Monday Community Meal"> 3rd Monday Community Meal</label>
-      <label><input type="checkbox" name="areas" value="Backpack Lunch Ministry"> Backpack Lunch Ministry</label>
-      <label><input type="checkbox" name="areas" value="Blessing Box"> Blessing Box</label>
-      <label><input type="checkbox" name="areas" value="Diaper Bank Ministry"> Diaper Bank Ministry</label>
-      <label><input type="checkbox" name="areas" value="Jail Ministry"> Jail Ministry</label>
-      <label><input type="checkbox" name="areas" value="Kid's ministry"> Kid's ministry</label>
-      <label><input type="checkbox" name="areas" value="Youth ministry"> Youth ministry</label>
-      <label><input type="checkbox" name="areas" value="Communication"> Communication</label>
-      <label><input type="checkbox" name="areas" value="Worship"> Worship</label>
-      <label><input type="checkbox" name="areas" value="Tech"> Tech</label>
+      <div class="checkboxes">
+        <label><input type="checkbox" name="areas" value="3rd Monday Community Meal">3rd Monday Community Meal</label>
+        <label><input type="checkbox" name="areas" value="Backpack Lunch Ministry">Backpack Lunch Ministry</label>
+        <label><input type="checkbox" name="areas" value="Blessing Box">Blessing Box</label>
+        <label><input type="checkbox" name="areas" value="Diaper Bank Ministry">Diaper Bank Ministry</label>
+        <label><input type="checkbox" name="areas" value="Jail Ministry">Jail Ministry</label>
+        <label><input type="checkbox" name="areas" value="Kid's ministry">Kid's ministry</label>
+        <label><input type="checkbox" name="areas" value="Youth ministry">Youth ministry</label>
+        <label><input type="checkbox" name="areas" value="Communication">Communication</label>
+        <label><input type="checkbox" name="areas" value="Worship">Worship</label>
+        <label><input type="checkbox" name="areas" value="Tech">Tech</label>
+      </div>
     </fieldset>
 
     <button type="submit">Submit</button>
