@@ -9,21 +9,44 @@
       font-family: Arial, Helvetica, sans-serif;
       margin: 0;
       padding: 24px;
+      background: #f9f9f9;
     }
-    form {
-      width: 100%;
+    .form-wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 24px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
-    input, select, textarea, button {
+    label {
+      display: block;
+      margin-top: 10px;
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    textarea {
       width: 100%;
       box-sizing: border-box;
       padding: 10px;
-      margin-top: 4px;
       margin-bottom: 12px;
       font-size: 15px;
+    }
+    select {
+      padding: 10px;
+      font-size: 15px;
+      margin-bottom: 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      width: auto; /* natural size */
     }
     fieldset {
       border: 1px solid #ddd;
       padding: 10px;
+      margin-bottom: 12px;
     }
     legend { font-weight: bold; }
     button {
@@ -33,7 +56,9 @@
       border: none;
       border-radius: 6px;
       cursor: pointer;
-      padding: 12px;
+      padding: 12px 20px;
+      font-size: 16px;
+      margin-top: 12px;
     }
     #ok, #err {
       display: none;
@@ -47,7 +72,7 @@
     /* Checkbox grid */
     .checkboxes {
       display: grid;
-      grid-template-columns: 1fr 1fr; /* 2 columns */
+      grid-template-columns: 1fr 1fr;
       gap: 8px 20px;
     }
     .checkboxes label {
@@ -55,55 +80,67 @@
       align-items: center;
       gap: 8px;
       font-weight: normal;
-      width: auto;
+      white-space: nowrap;
     }
     .checkboxes input[type="checkbox"] {
-      width: auto;
       margin: 0;
+      width: auto;
     }
     @media (max-width:600px) {
-      .checkboxes { grid-template-columns: 1fr; } /* stack on small screens */
+      .checkboxes { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
-  <h1>Get Involved</h1>
-  <div id="ok">Thanks! Your form was submitted.</div>
-  <div id="err">Sorry, something went wrong.</div>
+  <div class="form-wrap">
+    <h1>Get Involved</h1>
+    <div id="ok">Thanks! Your form was submitted.</div>
+    <div id="err">Sorry, something went wrong.</div>
 
-  <form id="serveForm" method="POST" action="https://script.google.com/macros/s/AKfycbyFAuFvAOFDfx10KZKHO0suTmMhfloqUF-MbjjZelO-CtJHR4pNa5Is5fQuIxa4ddJc7A/exec">
-    <label>First name*<input required name="firstName"></label>
-    <label>Last name*<input required name="lastName"></label>
-    <label>Email*<input required type="email" name="email"></label>
-    <label>Phone<input name="phone"></label>
-    <label>Phone type
-      <select name="phoneType">
+    <form id="serveForm" method="POST" action="https://script.google.com/macros/s/AKfycbyFAuFvAOFDfx10KZKHO0suTmMhfloqUF-MbjjZelO-CtJHR4pNa5Is5fQuIxa4ddJc7A/exec">
+      
+      <label for="firstName">First name*</label>
+      <input required type="text" name="firstName" id="firstName">
+      
+      <label for="lastName">Last name*</label>
+      <input required type="text" name="lastName" id="lastName">
+      
+      <label for="email">Email*</label>
+      <input required type="email" name="email" id="email">
+      
+      <label for="phone">Phone</label>
+      <input type="tel" name="phone" id="phone">
+      
+      <label for="phoneType">Phone type</label>
+      <select name="phoneType" id="phoneType">
         <option value="">-- Select --</option>
         <option>Mobile</option><option>Home</option><option>Work</option>
       </select>
-    </label>
-    <label>Gifts / Strengths<textarea name="gifts" rows="4"></textarea></label>
+      
+      <label for="gifts">Gifts / Strengths</label>
+      <textarea name="gifts" id="gifts" rows="4"></textarea>
 
-    <fieldset>
-      <legend>Areas of interest</legend>
-      <div class="checkboxes">
-        <label><input type="checkbox" name="areas" value="3rd Monday Community Meal">3rd Monday Community Meal</label>
-        <label><input type="checkbox" name="areas" value="Backpack Lunch Ministry">Backpack Lunch Ministry</label>
-        <label><input type="checkbox" name="areas" value="Blessing Box">Blessing Box</label>
-        <label><input type="checkbox" name="areas" value="Diaper Bank Ministry">Diaper Bank Ministry</label>
-        <label><input type="checkbox" name="areas" value="Jail Ministry">Jail Ministry</label>
-        <label><input type="checkbox" name="areas" value="Kid's ministry">Kid's ministry</label>
-        <label><input type="checkbox" name="areas" value="Youth ministry">Youth ministry</label>
-        <label><input type="checkbox" name="areas" value="Communication">Communication</label>
-        <label><input type="checkbox" name="areas" value="Worship">Worship</label>
-        <label><input type="checkbox" name="areas" value="Tech">Tech</label>
-      </div>
-    </fieldset>
+      <fieldset>
+        <legend>Areas of interest</legend>
+        <div class="checkboxes">
+          <label><input type="checkbox" name="areas" value="3rd Monday Community Meal">3rd Monday Community Meal</label>
+          <label><input type="checkbox" name="areas" value="Backpack Lunch Ministry">Backpack Lunch Ministry</label>
+          <label><input type="checkbox" name="areas" value="Blessing Box">Blessing Box</label>
+          <label><input type="checkbox" name="areas" value="Diaper Bank Ministry">Diaper Bank Ministry</label>
+          <label><input type="checkbox" name="areas" value="Jail Ministry">Jail Ministry</label>
+          <label><input type="checkbox" name="areas" value="Kid's ministry">Kid's ministry</label>
+          <label><input type="checkbox" name="areas" value="Youth ministry">Youth ministry</label>
+          <label><input type="checkbox" name="areas" value="Communication">Communication</label>
+          <label><input type="checkbox" name="areas" value="Worship">Worship</label>
+          <label><input type="checkbox" name="areas" value="Tech">Tech</label>
+        </div>
+      </fieldset>
 
-    <button type="submit">Submit</button>
-    <p style="color:#666;font-size:12px">We’ll never share your information without your consent.</p>
-  </form>
+      <button type="submit">Submit</button>
+      <p style="color:#666;font-size:12px">We’ll never share your information without your consent.</p>
+    </form>
+  </div>
 
   <script>
     const form = document.getElementById('serveForm');
