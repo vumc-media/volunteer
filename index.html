@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Get Involved — Versailles UMC</title>
+<style>
+  :root { --brand:#0b6efb; --bg:#f6f6f6; }
+  body { font-family:Arial,Helvetica,sans-serif; background:var(--bg); margin:0; padding:24px; }
+  .wrap { max-width:900px; margin:0 auto; background:#fff; padding:24px; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,.06); }
+  h1 { font-size:28px; margin:0 0 6px; text-align:center; }
+  p.lead { color:#555; margin:0 0 20px; text-align:center; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .grid-1 { display:grid; grid-template-columns:1fr; gap:14px; }
+  label { font-weight:600; display:block; margin:6px 0; }
+  input, select, textarea {
+    width:100%; padding:12px; border:1px solid #ddd; border-radius:8px; font-size:14px;
+  }
+  textarea { min-height:120px; resize:vertical; }
+  .checks { display:grid; grid-template-columns:1fr; gap:10px; margin-top:6px; }
+  .checks label { font-weight:500; display:flex; gap:10px; align-items:flex-start; }
+  .actions { margin-top:18px; }
+  button {
+    appearance:none; border:none; border-radius:999px; padding:12px 20px; font-weight:700; cursor:pointer;
+    background:var(--brand); color:#fff;
+  }
+  .note { margin-top:10px; font-size:13px; color:#444; }
+  .alert { margin-top:16px; padding:12px; border-radius:8px; display:none; }
+  .ok { background:#e9f6ec; color:#1b6b2c; }
+  .err { background:#fdebec; color:#9a1c28; }
+  @media (max-width:720px){ .grid{ grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Get Involved</h1>
+    <p class="lead">Share your gifts and where you’d like to serve—our team will follow up!</p>
+
+    <form id="serveForm">
+      <div class="grid">
+        <div>
+          <label>First name *</label>
+          <input type="text" name="firstName" required>
+        </div>
+        <div>
+          <label>Last name *</label>
+          <input type="text" name="lastName" required>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div>
+          <label>Email address *</label>
+          <input type="email" name="email" required>
+        </div>
+        <div>
+          <label>Phone number</label>
+          <input type="tel" name="phone" placeholder="(###) ###-####">
+        </div>
+      </div>
+
+      <div class="grid">
+        <div>
+          <label>Phone type</label>
+          <select name="phoneType">
+            <option value="">-- Select --</option>
+            <option>Mobile</option>
+            <option>Home</option>
+            <option>Work</option>
+          </select>
+        </div>
+        <div></div>
+      </div>
+
+      <div class="grid-1">
+        <div>
+          <label>Let us know your spiritual gifts & strengths</label>
+          <textarea name="gifts" placeholder="Tell us about your passions, skills, experiences…"></textarea>
+        </div>
+      </div>
+
+      <div class="grid-1">
+        <label>Ministry areas of interest</label>
+        <div class="checks">
+          <label><input type="checkbox" name="areas" value="3rd Monday Community Meal"> 3rd Monday Community Meal</label>
+          <label><input type="checkbox" name="areas" value="Backpack Lunch Ministry"> Backpack Lunch Ministry</label>
+          <label><input type="checkbox" name="areas" value="Blessing Box"> Blessing Box</label>
+          <label><input type="checkbox" name="areas" value="Diaper Bank Ministry"> Diaper Bank Ministry</label>
+          <label><input type="checkbox" name="areas" value="Jail Ministry"> Jail Ministry</label>
+          <label><input type="checkbox" name="areas" value="Kid's ministry"> Kid's ministry</label>
+          <label><input type="checkbox" name="areas" value="Youth ministry"> Youth ministry</label>
+          <label><input type="checkbox" name="areas" value="Communication"> Communication</label>
+          <label><input type="checkbox" name="areas" value="Worship"> Worship</label>
+          <label><input type="checkbox" name="areas" value="Tech"> Tech</label>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="submit">Submit</button>
+        <div class="note">We’ll never share your information without your consent.</div>
+      </div>
+
+      <div id="ok" class="alert ok">Thanks! Your form was submitted and emailed to our Serve team.</div>
+      <div id="err" class="alert err">Sorry, something went wrong. Please try again in a moment.</div>
+    </form>
+  </div>
+
+<script>
+  const FORM_ENDPOINT = 'YOUR_EXEC_URL_HERE'; // <-- paste your Apps Script /exec URL
+  const form = document.getElementById('serveForm');
+  const ok   = document.getElementById('ok');
+  const err  = document.getElementById('err');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    ok.style.display = 'none';
+    err.style.display = 'none';
+
+    // Build x-www-form-urlencoded body (no CORS preflight)
+    const fd = new FormData(form);
+    // include all checked "areas"
+    const areas = Array.from(form.querySelectorAll('input[name="areas"]:checked')).map(i => i.value);
+    areas.forEach(v => fd.append('areas', v)); // repeat key for each value
+    const body = new URLSearchParams(fd).toString();
+
+    try {
+      const resp = await fetch(FORM_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+        body
+      });
+      const json = await resp.json().catch(() => ({}));
+      if (resp.ok && json.ok) {
+        form.reset();
+        ok.style.display = 'block';
+      } else {
+        err.style.display = 'block';
+      }
+    } catch (e) {
+      err.style.display = 'block';
+    }
+  });
+</script>
+</body>
+</html>
