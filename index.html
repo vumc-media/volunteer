@@ -1,42 +1,87 @@
 <!doctype html>
-<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Get Involved — VUMC</title></head>
-<body style="font-family:Arial,Helvetica,sans-serif;max-width:720px;margin:24px auto;padding:0 12px">
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Get Involved — VUMC</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 0;
+      padding: 24px;
+    }
+    form {
+      width: 100%;
+    }
+    input, select, textarea, button {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px;
+      margin-top: 4px;
+      margin-bottom: 12px;
+      font-size: 15px;
+    }
+    fieldset {
+      border: 1px solid #ddd;
+      padding: 10px;
+    }
+    legend { font-weight: bold; }
+    label { display: block; margin: 6px 0; }
+    button {
+      background: #0b6efb;
+      color: #fff;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    #ok, #err {
+      display: none;
+      padding: 12px;
+      border-radius: 6px;
+      margin-bottom: 12px;
+    }
+    #ok { background:#e9f6ec; color:#1b6b2c; }
+    #err { background:#fdebec; color:#9a1c28; }
+  </style>
+</head>
+<body>
+
   <h1>Get Involved</h1>
+  <div id="ok">Thanks! Your form was submitted.</div>
+  <div id="err">Sorry, something went wrong.</div>
 
-  <!-- SUCCESS / ERROR MESSAGES -->
-  <div id="ok"  style="display:none;background:#e9f6ec;color:#1b6b2c;padding:10px;border-radius:8px;margin:10px 0">Thanks! Your form was submitted.</div>
-  <div id="err" style="display:none;background:#fdebec;color:#9a1c28;padding:10px;border-radius:8px;margin:10px 0">Sorry, something went wrong.</div>
-
-  <!-- Plain HTML form posts directly to your Apps Script endpoint -->
   <form id="serveForm" method="POST" action="https://script.google.com/macros/s/AKfycbyFAuFvAOFDfx10KZKHO0suTmMhfloqUF-MbjjZelO-CtJHR4pNa5Is5fQuIxa4ddJc7A/exec">
-    <p><label>First name*<br><input required name="firstName"></label></p>
-    <p><label>Last name*<br><input required name="lastName"></label></p>
-    <p><label>Email*<br><input required type="email" name="email"></label></p>
-    <p><label>Phone<br><input name="phone"></label></p>
-    <p><label>Phone type<br>
-      <select name="phoneType"><option value="">-- Select --</option><option>Mobile</option><option>Home</option><option>Work</option></select>
-    </label></p>
-    <p><label>Gifts / Strengths<br><textarea name="gifts" rows="4"></textarea></label></p>
+    <label>First name*<input required name="firstName"></label>
+    <label>Last name*<input required name="lastName"></label>
+    <label>Email*<input required type="email" name="email"></label>
+    <label>Phone<input name="phone"></label>
+    <label>Phone type
+      <select name="phoneType">
+        <option value="">-- Select --</option>
+        <option>Mobile</option><option>Home</option><option>Work</option>
+      </select>
+    </label>
+    <label>Gifts / Strengths<textarea name="gifts" rows="4"></textarea></label>
 
-    <fieldset style="border:1px solid #ddd;padding:10px"><legend>Areas of interest</legend>
-      <label><input type="checkbox" name="areas" value="3rd Monday Community Meal"> 3rd Monday Community Meal</label><br>
-      <label><input type="checkbox" name="areas" value="Backpack Lunch Ministry"> Backpack Lunch Ministry</label><br>
-      <label><input type="checkbox" name="areas" value="Blessing Box"> Blessing Box</label><br>
-      <label><input type="checkbox" name="areas" value="Diaper Bank Ministry"> Diaper Bank Ministry</label><br>
-      <label><input type="checkbox" name="areas" value="Jail Ministry"> Jail Ministry</label><br>
-      <label><input type="checkbox" name="areas" value="Kid's ministry"> Kid's ministry</label><br>
-      <label><input type="checkbox" name="areas" value="Youth ministry"> Youth ministry</label><br>
-      <label><input type="checkbox" name="areas" value="Communication"> Communication</label><br>
-      <label><input type="checkbox" name="areas" value="Worship"> Worship</label><br>
+    <fieldset>
+      <legend>Areas of interest</legend>
+      <label><input type="checkbox" name="areas" value="3rd Monday Community Meal"> 3rd Monday Community Meal</label>
+      <label><input type="checkbox" name="areas" value="Backpack Lunch Ministry"> Backpack Lunch Ministry</label>
+      <label><input type="checkbox" name="areas" value="Blessing Box"> Blessing Box</label>
+      <label><input type="checkbox" name="areas" value="Diaper Bank Ministry"> Diaper Bank Ministry</label>
+      <label><input type="checkbox" name="areas" value="Jail Ministry"> Jail Ministry</label>
+      <label><input type="checkbox" name="areas" value="Kid's ministry"> Kid's ministry</label>
+      <label><input type="checkbox" name="areas" value="Youth ministry"> Youth ministry</label>
+      <label><input type="checkbox" name="areas" value="Communication"> Communication</label>
+      <label><input type="checkbox" name="areas" value="Worship"> Worship</label>
       <label><input type="checkbox" name="areas" value="Tech"> Tech</label>
     </fieldset>
 
-    <p><button type="submit">Submit</button></p>
+    <button type="submit">Submit</button>
     <p style="color:#666;font-size:12px">We’ll never share your information without your consent.</p>
   </form>
 
-  <!-- Tiny enhancement: show success/error without leaving the page -->
   <script>
     const form = document.getElementById('serveForm');
     const ok   = document.getElementById('ok');
@@ -47,7 +92,6 @@
       ok.style.display = 'none'; err.style.display = 'none';
 
       const fd = new FormData(form);
-      // Ensure all checked checkboxes are sent as repeated `areas`
       const areas = Array.from(form.querySelectorAll('input[name="areas"]:checked')).map(i => i.value);
       fd.delete('areas'); areas.forEach(v => fd.append('areas', v));
 
@@ -65,4 +109,5 @@
       } catch { err.style.display = 'block'; }
     });
   </script>
-</body></html>
+</body>
+</html>
